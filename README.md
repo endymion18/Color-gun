@@ -1,1 +1,1 @@
-# Simple-game
+# Color gun game
