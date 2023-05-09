@@ -1,59 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    // Скрипт отвечает за передвижение персонажа
     public float speed = 10f;
-    private float horizontal;
-    private bool isFacingRight;
     public float jumpForce = 10f;
-    
+    private float _horizontal;
+    private bool _isFacingRight;
+    private bool _jumpButtonFlag;
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
-    
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Camera mainCamera;
 
-    void Update()
+    private void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
+        _horizontal = Input.GetAxisRaw("Horizontal");
 
-        if (isGrounded() && Input.GetKeyDown (KeyCode.W)) 
-		{
-			rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-		}
-        else if(!isGrounded() && Input.GetKeyUp (KeyCode.W))
+        if (IsGrounded && Input.GetKeyDown(KeyCode.W))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            _jumpButtonFlag = true;
+        }
+
+        else if (!IsGrounded && Input.GetKeyUp(KeyCode.W) && _jumpButtonFlag)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            _jumpButtonFlag = false;
         }
 
         Flip();
     }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        rb.velocity = new Vector2(_horizontal * speed, rb.velocity.y);
     }
 
     private void Flip()
     {
-        if (!isFacingRight && horizontal < 0f || isFacingRight && horizontal > 0f)
-        {
-            isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-        }
-        
+        var mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        var rotation = transform.rotation;
+
+        transform.eulerAngles = mousePos.x < transform.position.x
+            ? new Vector3(rotation.x, 180f, rotation.z)
+            : new Vector3(rotation.x, 0f, rotation.z);
     }
 
-    private bool isGrounded()
-    {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer); 
-    }
-
+    private bool IsGrounded => Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
 }
