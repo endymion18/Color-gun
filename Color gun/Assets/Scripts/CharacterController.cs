@@ -3,8 +3,8 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
     // Скрипт отвечает за передвижение персонажа
-    public float speed = 10f;
-    public float jumpForce = 10f;
+    public static float Speed = 10f;
+    public static float JumpForce = 10f;
     private float _horizontal;
     private bool _isFacingRight;
     private bool _jumpButtonFlag;
@@ -20,7 +20,7 @@ public class CharacterController : MonoBehaviour
 
         if (IsGrounded && Input.GetKeyDown(KeyCode.W))
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.velocity = new Vector2(rb.velocity.x, JumpForce);
             _jumpButtonFlag = true;
         }
 
@@ -29,13 +29,12 @@ public class CharacterController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
             _jumpButtonFlag = false;
         }
-
         Flip();
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(_horizontal * speed, rb.velocity.y);
+        rb.velocity = new Vector2(_horizontal * Speed, rb.velocity.y);
     }
 
     private void Flip()
@@ -49,4 +48,5 @@ public class CharacterController : MonoBehaviour
     }
 
     private bool IsGrounded => Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    
 }

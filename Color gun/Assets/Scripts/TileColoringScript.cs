@@ -33,8 +33,6 @@ public class TileColoringScript : MonoBehaviour
             {
                 var hit = _collisionEvents[i].intersection;
                 collisionHitLoc = tilemap.WorldToCell(hit);
-                Debug.Log(_collisionEvents[i].intersection.ToString());
-                Debug.Log(collisionHitLoc.ToString());
                 i++;
                 NearestTileX();
                 NearestTileY();
@@ -46,7 +44,7 @@ public class TileColoringScript : MonoBehaviour
 
     private void NearestTileX()
     {
-        var ratio = new[] { -1, 0, 1 };
+        var ratio = new[] { 0, 1, -1 };
         foreach (var r in ratio)
         {
             var tempHitLoc = collisionHitLoc;
@@ -58,7 +56,7 @@ public class TileColoringScript : MonoBehaviour
 
     private void NearestTileY()
     {
-        var ratio = new[] { -1, 0 };
+        var ratio = new[] { -1, 0};
         foreach (var r in ratio)
         {
             var tempHitLoc = collisionHitLoc;
