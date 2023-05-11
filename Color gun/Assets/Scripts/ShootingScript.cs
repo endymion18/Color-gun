@@ -8,11 +8,6 @@ public class ShootingScript : MonoBehaviour
 
     [SerializeField] private Camera mainCamera;
 
-    private void Start()
-    {
-    }
-
-
     private void Update()
     {
         var mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);

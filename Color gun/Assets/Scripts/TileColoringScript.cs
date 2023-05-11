@@ -41,7 +41,7 @@ public class TileColoringScript : MonoBehaviour
             }
         }
     }
-
+    //объеденить в один метод
     private void NearestTileX()
     {
         var ratio = new[] { 0, 1, -1 };

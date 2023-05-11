@@ -5,8 +5,6 @@ public class GunParticlesScript : MonoBehaviour
     //Управляет частицами которое выпускает Particle System (оружие)
     public Sprite[] sprites;
     public Transform gun;
-    private SpriteRenderer _spriteRenderer;
-    private Vector2 _psDirection;
     private static int _curWeapon;
     private ParticleSystem _particleSystem;
     private ParticleSystem.MainModule _main;

@@ -1,23 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TileProperties : MonoBehaviour
 {
+    //изменение свойств игрока в зависимости от тайла
     private Tilemap _tilemap;
     private float _speedDefault;
     private float _jumpDefault;
-    
+
     [SerializeField] private Transform player;
     [SerializeField] private TileBase[] tiles;
+
     private void Start()
     {
         _tilemap = GetComponent<Tilemap>();
         _speedDefault = CharacterController.Speed;
         _jumpDefault = CharacterController.JumpForce;
     }
-    
+
     private void Update()
     {
         var playerPos = _tilemap.WorldToCell(player.position);
