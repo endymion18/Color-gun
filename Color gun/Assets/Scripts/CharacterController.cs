@@ -3,7 +3,7 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
     // Скрипт отвечает за передвижение персонажа
-    public static float Speed = 10f;
+    public static float Speed = 11f;
     public static float JumpForce = 10f;
     private float _horizontal;
     private bool _isFacingRight;
