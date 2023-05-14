@@ -8,6 +8,7 @@ public class GunParticlesScript : MonoBehaviour
     private static int _curWeapon;
     private ParticleSystem _particleSystem;
     private ParticleSystem.MainModule _main;
+    [SerializeField] private AudioSource shootSound;
 
     private void Awake()
     {
@@ -19,9 +20,18 @@ public class GunParticlesScript : MonoBehaviour
     {
         _curWeapon = WeaponChoosingScript.CurWeapon;
         _particleSystem.textureSheetAnimation.SetSprite(0, sprites[_curWeapon]);
-        if (Input.GetMouseButtonDown(0)) _particleSystem.Play();
+        if (Input.GetMouseButtonDown(0))
+        {
+            _particleSystem.Play();
+            shootSound.Play();
+        }
+
         if (Input.GetMouseButton(0))
+        {
             _main.startRotation = new ParticleSystem.MinMaxCurve(-gun.rotation.eulerAngles.z * Mathf.Deg2Rad);
+            shootSound.Play();
+        }
+
         if (Input.GetMouseButtonUp(0)) _particleSystem.Stop();
     }
 }

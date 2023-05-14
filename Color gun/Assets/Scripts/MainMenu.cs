@@ -5,10 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    //Выполняет действия кнопок
+    //Выполняет действия главного меню
     public void Play()
     {
         SceneManager.LoadScene(1);
+    }
+    
+    public void Options()
+    {
+        SceneManager.LoadScene(2);
     }
     
     public void Exit()

@@ -13,6 +13,8 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private AudioSource jumpSound;
+
 
     private void Update()
     {
@@ -22,6 +24,7 @@ public class CharacterController : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, JumpForce);
             _jumpButtonFlag = true;
+            jumpSound.Play();
         }
 
         else if (!IsGrounded && Input.GetKeyUp(KeyCode.W) && _jumpButtonFlag)
