@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ShootingScript : MonoBehaviour
+public class WeaponRotationScript : MonoBehaviour
 {
     //Меняет положение оружие в зависимости от положения курсора
     public Transform gun;

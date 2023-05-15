@@ -32,6 +32,7 @@ public class CharacterController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
             _jumpButtonFlag = false;
         }
+
         Flip();
     }
 
@@ -50,6 +51,5 @@ public class CharacterController : MonoBehaviour
             : new Vector3(rotation.x, 0f, rotation.z);
     }
 
-    private bool IsGrounded => Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-    
+    private bool IsGrounded => Physics2D.OverlapCircle(groundCheck.position, 0.6f, groundLayer);
 }

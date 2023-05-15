@@ -41,6 +41,7 @@ public class TileColoringScript : MonoBehaviour
             }
         }
     }
+
     //объеденить в один метод
     private void NearestTileX()
     {
@@ -56,7 +57,7 @@ public class TileColoringScript : MonoBehaviour
 
     private void NearestTileY()
     {
-        var ratio = new[] { -1, 0};
+        var ratio = new[] { -1, 0 };
         foreach (var r in ratio)
         {
             var tempHitLoc = collisionHitLoc;
