@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -12,35 +13,29 @@ public class Options : MonoBehaviour
 
 {
     public TMP_Dropdown  resolutionDropdown;
-    Resolution[] resolutions;
-    public AudioMixer audioMixer;
-    public Slider volumeSlider;
-    float currentVolume;
-
-    public void SetVolume(float volume)
-    {
-        audioMixer.SetFloat("Volume", volume);
-        currentVolume = volume;
-    }
     
-    public void GetResolutions()
+    public void ChangeResolutions()
     {
-        resolutionDropdown.ClearOptions();
-            List<string> options = new List<string>();
-            resolutions = Screen.resolutions;
-            int currentResolutionIndex = 0;
-
-            for (int i = 0; i < resolutions.Length; i++)
-            {
-                string option = resolutions[i].width + "x" + resolutions[i].height + " " + resolutions[i].refreshRate + "Hz";
-                options.Add(option);
-                if (resolutions[i].width == Screen.currentResolution.width
-                    && resolutions[i].height == Screen.currentResolution.height)
-                    currentResolutionIndex = i;
-            }
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.RefreshShownValue();
-        LoadSettings(currentResolutionIndex);
+        if (resolutionDropdown.value == 0)
+        {
+            Screen.SetResolution(1024, 768, true);
+        }
+        else if (resolutionDropdown.value == 1)
+        {
+            Screen.SetResolution(1280, 720, true);
+        }
+        else if (resolutionDropdown.value == 2)
+        {
+            Screen.SetResolution(1366,768,true);
+        }
+        else if(resolutionDropdown.value == 3)
+        {
+            Screen.SetResolution(1920, 1080, true);
+        }
+        else if(resolutionDropdown.value == 4)
+        {
+            Screen.SetResolution(2560, 1440, true);
+        }
     }
 
     public void SetFullscreen(bool isFullscreen)
@@ -48,12 +43,6 @@ public class Options : MonoBehaviour
         Screen.fullScreen = isFullscreen;
     }
 
-    public void SetResolutions(int resolutionIndex)
-    {
-        Resolution resolution = resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-    }
-    
     public void ExitOptions()
     {
         SceneManager.LoadScene(0);
@@ -61,21 +50,6 @@ public class Options : MonoBehaviour
 
     public void SaveSettings()
     {
-        PlayerPrefs.SetInt("ResolutionPreference", resolutionDropdown.value);
         PlayerPrefs.SetInt("FullscreenPreference", System.Convert.ToInt32(Screen.fullScreen));
-        PlayerPrefs.SetFloat("VolumePreference", currentVolume);
-    }
-
-    public void LoadSettings(int currentResolutionIndex)
-    {
-        if (PlayerPrefs.HasKey("ResolutionsPreference"))
-            resolutionDropdown.value = PlayerPrefs.GetInt("ResolutionsPreference");
-        else
-            resolutionDropdown.value = currentResolutionIndex;
-
-        if (PlayerPrefs.HasKey("FullscreenPreference"))
-            Screen.fullScreen = System.Convert.ToBoolean(PlayerPrefs.GetInt("FullscreenPreference"));
-        else
-            Screen.fullScreen = true;
     }
 }
