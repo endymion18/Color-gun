@@ -27,11 +27,12 @@ public class GunParticlesScript : MonoBehaviour
         }
 
         if (Input.GetMouseButton(0))
-        {
             _main.startRotation = new ParticleSystem.MinMaxCurve(-gun.rotation.eulerAngles.z * Mathf.Deg2Rad);
-            shootSound.Play();
-        }
 
-        if (Input.GetMouseButtonUp(0)) _particleSystem.Stop();
+        if (Input.GetMouseButtonUp(0))
+        {
+            _particleSystem.Stop();
+            shootSound.Stop();
+        }
     }
 }
