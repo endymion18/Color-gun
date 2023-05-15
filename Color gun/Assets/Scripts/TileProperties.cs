@@ -7,7 +7,7 @@ public class TileProperties : MonoBehaviour
     private Tilemap _tilemap;
     private float _speedDefault;
     private float _jumpDefault;
-
+    private Vector3Int playerPos;
     [SerializeField] private Transform player;
     [SerializeField] private TileBase[] tiles;
 
@@ -20,13 +20,13 @@ public class TileProperties : MonoBehaviour
 
     private void Update()
     {
-        var playerPos = _tilemap.WorldToCell(player.position);
+        playerPos = _tilemap.WorldToCell(player.position);
         CheckTile(playerPos);
     }
 
     private void CheckTile(Vector3Int playerPosition)
     {
-        var playerPosForWalls = playerPosition;
+        NearestWall(playerPosition);
         playerPosition.y -= 1;
         var tile = _tilemap.GetTile(playerPosition);
         switch (tile)
@@ -43,12 +43,20 @@ public class TileProperties : MonoBehaviour
                 CharacterController.JumpForce = 15f;
                 break;
             }
-            case var value when value == tiles[3]:
+            case var value when value == tiles[3] || value == tiles[2]:
             {
                 CharacterController.Speed = _speedDefault;
                 CharacterController.JumpForce = _jumpDefault;
                 break;
             }
         }
+    }
+
+    private void NearestWall(Vector3Int playerPosition)
+    {
+        var tempPlayerPos = playerPosition;
+        tempPlayerPos.x += (int)CharacterController.Horizontal;
+        var tile = _tilemap.GetTile(tempPlayerPos);
+        CharacterController.IsNextToBlueWall = tile == tiles[2];
     }
 }

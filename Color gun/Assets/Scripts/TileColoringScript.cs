@@ -5,7 +5,7 @@ public class TileColoringScript : MonoBehaviour
 {
     // Отвечает за покраску тайлов в процессе игры
     private static int _curWeapon;
-    private ParticleCollisionEvent[] _collisionEvents = new ParticleCollisionEvent[10];
+    private ParticleCollisionEvent[] _collisionEvents = new ParticleCollisionEvent[5];
     private Vector3Int collisionHitLoc;
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private TileBase[] tiles;

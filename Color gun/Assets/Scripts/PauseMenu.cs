@@ -3,13 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public static bool GameIsPaused;
+    private static bool _gameIsPaused;
     public GameObject pauseMenuUI;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-            if (GameIsPaused)
+            if (_gameIsPaused)
                 Resume();
             else
                 Pause();
@@ -19,19 +19,19 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        GameIsPaused = false;
+        _gameIsPaused = false;
     }
 
-    public void Pause()
+    private void Pause()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        GameIsPaused = true;
+        _gameIsPaused = true;
     }
 
     public void MainMenu()
     {
         Resume();
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Menu");
     }
 }

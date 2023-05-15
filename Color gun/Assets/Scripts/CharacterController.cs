@@ -5,9 +5,12 @@ public class CharacterController : MonoBehaviour
     // Скрипт отвечает за передвижение персонажа
     public static float Speed = 11f;
     public static float JumpForce = 10f;
-    private float _horizontal;
+    public static bool IsNextToBlueWall = false;
+    public static float Horizontal;
     private bool _isFacingRight;
     private bool _jumpButtonFlag;
+
+    private bool IsGrounded => Physics2D.OverlapCircle(groundCheck.position, 0.6f, groundLayer);
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
@@ -18,19 +21,26 @@ public class CharacterController : MonoBehaviour
 
     private void Update()
     {
-        _horizontal = Input.GetAxisRaw("Horizontal");
+        Horizontal = Input.GetAxisRaw("Horizontal");
 
-        if (IsGrounded && Input.GetKeyDown(KeyCode.W))
+        switch (IsGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, JumpForce);
-            _jumpButtonFlag = true;
-            jumpSound.Play();
-        }
+            case true when Input.GetKeyDown(KeyCode.W):
+                rb.velocity = new Vector2(rb.velocity.x, JumpForce);
+                _jumpButtonFlag = true;
+                jumpSound.Play();
+                break;
+            case false when Input.GetKeyUp(KeyCode.W) && _jumpButtonFlag:
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+                _jumpButtonFlag = false;
+                break;
+            default:
+            {
+                if (rb.velocity.x < 1 && IsNextToBlueWall)
+                    rb.velocity = new Vector2(rb.velocity.x, 6.8f);
 
-        else if (!IsGrounded && Input.GetKeyUp(KeyCode.W) && _jumpButtonFlag)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-            _jumpButtonFlag = false;
+                break;
+            }
         }
 
         Flip();
@@ -38,7 +48,7 @@ public class CharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(_horizontal * Speed, rb.velocity.y);
+        rb.velocity = new Vector2(Horizontal * Speed, rb.velocity.y);
     }
 
     private void Flip()
@@ -50,6 +60,4 @@ public class CharacterController : MonoBehaviour
             ? new Vector3(rotation.x, 180f, rotation.z)
             : new Vector3(rotation.x, 0f, rotation.z);
     }
-
-    private bool IsGrounded => Physics2D.OverlapCircle(groundCheck.position, 0.6f, groundLayer);
 }
