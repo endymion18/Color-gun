@@ -34,34 +34,24 @@ public class TileColoringScript : MonoBehaviour
                 var hit = _collisionEvents[i].intersection;
                 collisionHitLoc = tilemap.WorldToCell(hit);
                 i++;
-                NearestTileX();
-                NearestTileY();
-                if (tilemap.HasTile(collisionHitLoc) && tilemap.GetTile(collisionHitLoc) != tiles[3] && tilemap.GetTile(collisionHitLoc) != tiles[4])
+                NearestTile(true);
+                NearestTile(false);
+                if (tilemap.HasTile(collisionHitLoc) && tilemap.GetTile(collisionHitLoc) != tiles[3] &&
+                    tilemap.GetTile(collisionHitLoc) != tiles[4])
                     tilemap.SetTile(collisionHitLoc, tiles[_curWeapon]);
             }
         }
     }
 
     //объеденить в один метод
-    private void NearestTileX()
+    private void NearestTile(bool isNearestTileByX)
     {
-        var ratio = new[] { 0, 1, -1 };
+        var ratio = isNearestTileByX ? new[] { 0, 1, -1 } : new[] { -1, 0 };
         foreach (var r in ratio)
         {
             var tempHitLoc = collisionHitLoc;
-            tempHitLoc.x += r;
-            if (tilemap.HasTile(tempHitLoc) && tilemap.GetTile(tempHitLoc) != tiles[3])
-                collisionHitLoc = tempHitLoc;
-        }
-    }
-
-    private void NearestTileY()
-    {
-        var ratio = new[] { -1, 0 };
-        foreach (var r in ratio)
-        {
-            var tempHitLoc = collisionHitLoc;
-            tempHitLoc.y += r;
+            if (isNearestTileByX) tempHitLoc.x += r;
+            else tempHitLoc.y += r;
             if (tilemap.HasTile(tempHitLoc) && tilemap.GetTile(tempHitLoc) != tiles[3])
                 collisionHitLoc = tempHitLoc;
         }
