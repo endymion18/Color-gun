@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
     //Выполняет действия главного меню
     public void Play()
     {
-        SceneManager.LoadScene("GameplayTesting");
+        SceneManager.LoadScene("Level1");
     }
 
     public void Options()

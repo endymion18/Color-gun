@@ -36,7 +36,7 @@ public class TileColoringScript : MonoBehaviour
                 i++;
                 NearestTileX();
                 NearestTileY();
-                if (tilemap.HasTile(collisionHitLoc) && tilemap.GetTile(collisionHitLoc) != tiles[3])
+                if (tilemap.HasTile(collisionHitLoc) && tilemap.GetTile(collisionHitLoc) != tiles[3] && tilemap.GetTile(collisionHitLoc) != tiles[4])
                     tilemap.SetTile(collisionHitLoc, tiles[_curWeapon]);
             }
         }

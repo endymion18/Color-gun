@@ -43,7 +43,7 @@ public class TileProperties : MonoBehaviour
                 CharacterController.JumpForce = 15f;
                 break;
             }
-            case var value when value == tiles[3] || value == tiles[2]:
+            case var value when value == tiles[3] || value == tiles[2] || value == tiles[4]:
             {
                 CharacterController.Speed = _speedDefault;
                 CharacterController.JumpForce = _jumpDefault;

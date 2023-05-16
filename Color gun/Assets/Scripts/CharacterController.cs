@@ -17,12 +17,14 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private Animator animator;
+    private static readonly int PlayerSpeed = Animator.StringToHash("PlayerSpeed");
 
 
     private void Update()
     {
         Horizontal = Input.GetAxisRaw("Horizontal");
-
+        animator.SetFloat(PlayerSpeed, Mathf.Abs(rb.velocity.x));
         switch (IsGrounded)
         {
             case true when Input.GetKeyDown(KeyCode.W):
@@ -31,7 +33,9 @@ public class CharacterController : MonoBehaviour
                 jumpSound.Play();
                 break;
             case false when Input.GetKeyUp(KeyCode.W) && _jumpButtonFlag:
-                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+                var velocity = rb.velocity;
+                velocity = new Vector2(velocity.x, velocity.y * 0.5f);
+                rb.velocity = velocity;
                 _jumpButtonFlag = false;
                 break;
             default:
@@ -54,9 +58,10 @@ public class CharacterController : MonoBehaviour
     private void Flip()
     {
         var mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        var rotation = transform.rotation;
+        var transform1 = transform;
+        var rotation = transform1.rotation;
 
-        transform.eulerAngles = mousePos.x < transform.position.x
+        transform.eulerAngles = mousePos.x < transform1.position.x
             ? new Vector3(rotation.x, 180f, rotation.z)
             : new Vector3(rotation.x, 0f, rotation.z);
     }
